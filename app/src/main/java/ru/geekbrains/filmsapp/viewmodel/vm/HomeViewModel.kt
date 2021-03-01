@@ -1,4 +1,4 @@
-package ru.geekbrains.filmsapp.viewmodel
+package ru.geekbrains.filmsapp.viewmodel.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

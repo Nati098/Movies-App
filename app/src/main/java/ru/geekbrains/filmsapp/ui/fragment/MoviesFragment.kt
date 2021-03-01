@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
-import ru.geekbrains.filmsapp.viewmodel.MoviesViewModel
+import ru.geekbrains.filmsapp.viewmodel.vm.MoviesViewModel
 
 class MoviesFragment : Fragment() {
 
