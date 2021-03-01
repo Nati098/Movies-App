@@ -1,5 +1,6 @@
 package ru.geekbrains.filmsapp.model
 
+import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.Genre
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.model.data.Trend
@@ -23,6 +24,11 @@ class RepositoryImpl : Repository {
     override fun getMovieDetailsFromServer(movieId: Int): Movie {
 //        TODO("Not yet implemented")
         return Movie()
+    }
+
+    override fun getAccountFromServer(): Account {
+//        TODO("Not yet implemented")
+        return Account()
     }
 }
 

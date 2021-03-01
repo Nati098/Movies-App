@@ -12,5 +12,6 @@ data class Movie(val id: Int = 0,
                  val overview: String? = null,
                  val posterPath: String? = null,
                  val releaseDate: Date = Date(),
-                 val popularity: Double = 0.0
+                 val popularity: Double = 0.0,
+                 val adult: Boolean = true
 ) : Parcelable
