@@ -1,29 +1,25 @@
 package ru.geekbrains.filmsapp.viewmodel.vm
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.geekbrains.filmsapp.model.RepositoryImpl
-import ru.geekbrains.filmsapp.model.data.Genre
-import ru.geekbrains.filmsapp.viewmodel.ApplicationState
+import ru.geekbrains.filmsapp.model.data.Movie
+import ru.geekbrains.filmsapp.viewmodel.viewstate.MovieViewState
 
 class MoviesViewModel(private val repository: RepositoryImpl,
-                      private val observableData: MutableLiveData<ApplicationState>) : ViewModel() {
-
-    fun getLiveData() : LiveData<ApplicationState> = observableData
+                      observableData: MutableLiveData<MovieViewState>) : BaseViewModel<List<Movie>?, MovieViewState>(observableData) {
 
     fun getGenresFromLocal() = getDataFromRemote()
     fun getGenresFromRemote() = getDataFromRemote()
 
-    fun getMoviesByGenreFromLocal(genre: Genre) = getDataFromRemote()
-    fun getMoviesByGenreFromRemote(genre: Genre) = getDataFromRemote()
+    fun getMoviesByGenreFromLocal(genres: List<Int>) = getDataFromRemote()
+    fun getMoviesByGenreFromRemote(genres: List<Int>) = getDataFromRemote()  // /discover/movie with_genres
 
     private fun getDataFromRemote() {
-        observableData.value = ApplicationState.Loading
+        observableData.value = MovieViewState()  // for ApplicationState=Loading
         // TODO
         Thread {
             Thread.sleep(1000)
-            observableData.postValue(ApplicationState.Success(repository.getMoviesListFromServer()))
+            observableData.postValue(MovieViewState(repository.getMoviesListFromServer()))
         }.start()
     }
 }

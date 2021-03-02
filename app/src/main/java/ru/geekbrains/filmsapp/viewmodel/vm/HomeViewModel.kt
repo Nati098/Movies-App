@@ -1,26 +1,23 @@
 package ru.geekbrains.filmsapp.viewmodel.vm
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.geekbrains.filmsapp.model.RepositoryImpl
-import ru.geekbrains.filmsapp.viewmodel.ApplicationState
+import ru.geekbrains.filmsapp.model.data.Trend
+import ru.geekbrains.filmsapp.viewmodel.viewstate.HomeViewState
 import java.lang.Thread.sleep
 
 class HomeViewModel(private val repository: RepositoryImpl,
-                    private val observableData: MutableLiveData<ApplicationState>) : ViewModel() {
-
-    fun getLiveData() : LiveData<ApplicationState> = observableData
+                    observableData: MutableLiveData<HomeViewState>) : BaseViewModel<Trend?, HomeViewState>(observableData) {
 
     fun getTrendingFromLocal() = getDataFromRemote()
     fun getTrendingFromRemote() = getDataFromRemote()
 
     private fun getDataFromRemote() {
-        observableData.value = ApplicationState.Loading
+        observableData.value = HomeViewState()
         // TODO
         Thread {
             sleep(1000)
-            observableData.postValue(ApplicationState.Success(repository.getTrendingFromServer()))
+            observableData.postValue(HomeViewState(trends = repository.getTrendingFromServer()))
         }.start()
     }
 }

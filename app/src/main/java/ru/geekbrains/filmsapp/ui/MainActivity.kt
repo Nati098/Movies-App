@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import ru.geekbrains.filmsapp.R
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,4 +78,3 @@ class MainActivity : AppCompatActivity() {
         alert.show()
     }
 }
-
