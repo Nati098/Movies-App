@@ -4,28 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
-import ru.geekbrains.filmsapp.viewmodel.HomeViewModel
+import ru.geekbrains.filmsapp.databinding.FragmentHomeBinding
+import ru.geekbrains.filmsapp.model.data.Trend
+import ru.geekbrains.filmsapp.viewmodel.viewstate.HomeViewState
+import ru.geekbrains.filmsapp.viewmodel.vm.HomeViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    override val viewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
+    override val layoutRes: Int = R.layout.fragment_home
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
+        get() = TODO("Not yet implemented")
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getTrendingFromRemote()
+    }
+
+    override fun bindView(view: View) {
+
+    }
+
+    private fun setData(trend: Trend) {
+
+    }
+
+    companion object {
+        fun newInstance() = HomeFragment()
     }
 }

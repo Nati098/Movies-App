@@ -1,4 +1,4 @@
-package ru.geekbrains.filmsapp
+package ru.geekbrains.filmsapp.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
-
+import ru.geekbrains.filmsapp.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +21,10 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_home, R.id.navigation_movies, R.id.navigation_profile))
+            R.id.navigation_home,
+            R.id.navigation_movies,
+            R.id.navigation_profile
+        ))
     }
 
     private fun bindView() {
@@ -75,4 +78,3 @@ class MainActivity : AppCompatActivity() {
         alert.show()
     }
 }
-
