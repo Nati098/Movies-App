@@ -7,7 +7,7 @@ import kotlin.collections.ArrayList
 
 @Parcelize
 data class Movie(val id: Int = 0,
-                 val genres: List<Genre> = ArrayList(),
+                 val genreIds: List<Int> = ArrayList(),
                  val title: String = "",
                  val overview: String? = null,
                  val posterPath: String? = null,

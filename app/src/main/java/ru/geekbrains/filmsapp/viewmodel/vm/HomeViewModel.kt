@@ -12,6 +12,9 @@ class HomeViewModel(private val repository: RepositoryImpl,
     fun getTrendingFromLocal() = getDataFromRemote()
     fun getTrendingFromRemote() = getDataFromRemote()
 
+    fun getRatedFromLocal() = getDataFromRemote()
+    fun getRatedFromRemote() = getDataFromRemote()
+
     private fun getDataFromRemote() {
         observableData.value = HomeViewState()
         // TODO
