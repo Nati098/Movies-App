@@ -21,7 +21,7 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
     override val viewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
     override val layoutRes: Int = R.layout.fragment_home
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
-        get() = TODO("Not yet implemented")
+            = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentHomeBinding.inflate(layoutInflater)}
 
     lateinit var trendAdapter: MovieAdapter
     lateinit var ratedAdapter: MovieAdapter

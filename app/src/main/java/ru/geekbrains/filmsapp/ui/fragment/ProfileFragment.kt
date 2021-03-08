@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
+import ru.geekbrains.filmsapp.databinding.FragmentMovieBinding
 import ru.geekbrains.filmsapp.databinding.FragmentProfileBinding
 import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.Trend
@@ -17,7 +18,7 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
     override val viewModel: ProfileViewModel by lazy { ViewModelProvider(this).get(ProfileViewModel::class.java) }
     override val layoutRes: Int = R.layout.fragment_profile
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfileBinding
-        get() = TODO("Not yet implemented")
+            = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentProfileBinding.inflate(layoutInflater)}
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

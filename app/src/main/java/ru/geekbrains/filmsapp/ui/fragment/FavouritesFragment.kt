@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_favourites.*
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentFavouritesBinding
+import ru.geekbrains.filmsapp.databinding.FragmentMovieBinding
 import ru.geekbrains.filmsapp.model.data.Favourites
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.model.data.Trend
@@ -21,7 +22,7 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     override val viewModel: FavouritesViewModel by lazy { ViewModelProvider(this).get(FavouritesViewModel::class.java) }
     override val layoutRes: Int = R.layout.fragment_favourites
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFavouritesBinding
-        get() = TODO("Not yet implemented")
+            = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentFavouritesBinding.inflate(layoutInflater)}
 
     lateinit var movieAdapter: MovieAdapter
 
