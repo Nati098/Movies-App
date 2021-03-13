@@ -42,7 +42,7 @@ class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         title.text = movie.title
         // TODO:join genres
         releaseDate.text = SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(movie.releaseDate)
-        popularity.text = String.format(view.resources.getString(R.string.popularity), movie.popularity);
+        popularity.text = String.format(view.resources.getString(R.string.popularity_template), movie.popularity);
     }
 
 }

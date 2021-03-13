@@ -52,6 +52,10 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     }
 
     companion object {
-        fun newInstance() = FavouritesFragment()
+        fun newInstance(bundle: Bundle): FavouritesFragment {
+            val fragment = FavouritesFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

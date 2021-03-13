@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_view_title"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="#0000000"
+        android:background="@null"
         android:tint="@color/secondaryLightColor"
         android:scaleType="fitXY"
         android:src="@drawable/ic_star_face"/>
@@ -60,6 +60,7 @@
             android:layout_weight="1">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_movie_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -67,7 +68,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewOverview"
+        android:id="@+id/text_view_overview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/movie_main_info"

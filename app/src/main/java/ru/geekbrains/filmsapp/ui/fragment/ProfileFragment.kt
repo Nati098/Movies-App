@@ -35,6 +35,10 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
     }
 
     companion object {
-        fun newInstance() = ProfileFragment()
+        fun newInstance(bundle: Bundle): ProfileFragment {
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

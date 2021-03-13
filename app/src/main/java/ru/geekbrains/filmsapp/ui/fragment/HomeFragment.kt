@@ -57,7 +57,23 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
         ratedAdapter.values = data
     }
 
+    private fun showMovie(movie: Movie) {
+        activity?.supportFragmentManager?.apply {
+            beginTransaction()
+                .add(R.id.container, MovieFragment.newInstance(Bundle().apply {
+                    putParcelable(MovieFragment.BUNDLE_EXTRA, movie)
+                }))
+                .addToBackStack("")
+                .commitAllowingStateLoss()
+        }
+    }
+
     companion object {
-        fun newInstance() = HomeFragment()
+
+        fun newInstance(bundle: Bundle): HomeFragment {
+            val fragment = HomeFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }
