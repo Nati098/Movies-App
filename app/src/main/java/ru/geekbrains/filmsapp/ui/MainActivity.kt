@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindView() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
-        bottomNavigationView.setOnNavigationItemReselectedListener { item ->
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
                     supportFragmentManager.addToBackStack<HomeFragment>(this, Bundle())
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.addToBackStack<ProfileFragment>(this, Bundle())
                     true
                 }
+                else -> true
             } }
     }
 
