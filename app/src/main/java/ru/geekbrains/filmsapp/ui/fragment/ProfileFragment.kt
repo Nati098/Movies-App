@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
-import ru.geekbrains.filmsapp.databinding.FragmentMovieBinding
 import ru.geekbrains.filmsapp.databinding.FragmentProfileBinding
 import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.Trend
+import ru.geekbrains.filmsapp.ui.extension.createCancelableAlertDialog
 import ru.geekbrains.filmsapp.viewmodel.viewstate.ProfileViewState
 import ru.geekbrains.filmsapp.viewmodel.vm.ProfileViewModel
 
@@ -27,7 +27,7 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
     }
 
     override fun bindView(view: View) {
-
+        view.context.createCancelableAlertDialog(R.string.bottom_nav_item_profile)
     }
 
     private fun setData(trend: Trend) {
