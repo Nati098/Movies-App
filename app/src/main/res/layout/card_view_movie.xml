@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="200dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding_small"
+    card_view:contentPadding="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_view_poster"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textColor="@android:color/black"
+            android:textSize="14dp"
+            tools:text="Interstellar"/>
+
+        <TextView
+            android:id="@+id/text_view_genres"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            style="@style/DescriptionTextStyle"
+            tools:text="Science fiction, Adventure"/>
+
+        <TextView
+            android:id="@+id/text_view_release_date"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            style="@style/DescriptionTextStyle"
+            tools:text="2014"/>
+
+        <TextView
+            android:id="@+id/text_view_popularity"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            style="@style/DescriptionTextStyle"
+            android:text="@string/popularity"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

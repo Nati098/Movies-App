@@ -14,4 +14,28 @@
     <style name="AppLightTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppLightTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TitleTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="OverviewTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="ListEmptyTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/secondaryLightColor</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
+    <style name="DescriptionTextStyle">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/secondaryLightColor</item>
+        <item name="android:singleLine">true</item>
+    </style>
 </resources>
