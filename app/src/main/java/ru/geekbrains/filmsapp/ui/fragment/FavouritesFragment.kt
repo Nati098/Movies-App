@@ -1,6 +1,7 @@
 package ru.geekbrains.filmsapp.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,17 @@ import ru.geekbrains.filmsapp.viewmodel.vm.FavouritesViewModel
 
 class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, FragmentFavouritesBinding>() {
 
-    override val viewModel: FavouritesViewModel by lazy { ViewModelProvider(this).get(FavouritesViewModel::class.java) }
+    override lateinit var viewModel: FavouritesViewModel
     override val layoutRes: Int = R.layout.fragment_favourites
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFavouritesBinding
             = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentFavouritesBinding.inflate(layoutInflater)}
 
-    lateinit var movieAdapter: MovieAdapter
+    private lateinit var movieAdapter: MovieAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(FavouritesViewModel::class.java)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -53,6 +59,7 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
 
     companion object {
         fun newInstance(bundle: Bundle): FavouritesFragment {
+            Log.d("FavouritesFragment", "newInstance")
             val fragment = FavouritesFragment()
             fragment.arguments = bundle
             return fragment
