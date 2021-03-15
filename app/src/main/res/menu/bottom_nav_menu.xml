@@ -7,9 +7,9 @@
         android:title="@string/bottom_nav_item_home" />
 
     <item
-        android:id="@+id/navigation_movies"
+        android:id="@+id/navigation_favourite"
         android:icon="@drawable/ic_movies"
-        android:title="@string/bottom_nav_item_movies" />
+        android:title="@string/bottom_nav_item_favourites" />
 
     <item
         android:id="@+id/navigation_profile"

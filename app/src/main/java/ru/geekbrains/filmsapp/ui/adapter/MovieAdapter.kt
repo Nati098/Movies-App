@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.model.data.Movie
+import ru.geekbrains.filmsapp.ui.extension.format
 import java.text.SimpleDateFormat
 import java.util.*
-
-const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
 
 class MovieAdapter(private val context: Context, private val listener: (Movie) -> Unit) : RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -41,8 +40,8 @@ class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         // TODO: load poster by poster path
         title.text = movie.title
         // TODO:join genres
-        releaseDate.text = SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(movie.releaseDate)
-        popularity.text = String.format(view.resources.getString(R.string.popularity), movie.popularity);
+        releaseDate.text = movie.releaseDate.format()
+        popularity.text = String.format(view.resources.getString(R.string.popularity_template), movie.popularity);
     }
 
 }
