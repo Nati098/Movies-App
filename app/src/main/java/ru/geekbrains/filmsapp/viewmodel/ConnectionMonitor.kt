@@ -54,4 +54,12 @@ class ConnectionMonitor(private val context: Context) {
     private fun isConnected(): Boolean =
         getConnectivityManager()?.activeNetworkInfo?.isConnectedOrConnecting == true
 
+    fun unregisterReceiver() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getConnectivityManager()?.unregisterNetworkCallback(networkCallback)
+        }
+        else {
+            context.unregisterReceiver(networkBroadcastReceiver)
+        }
+    }
 }

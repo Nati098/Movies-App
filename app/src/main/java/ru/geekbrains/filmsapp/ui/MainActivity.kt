@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         bindView()
 
+        // register receiver for CONNECTIVITY_ACTION
         connMonitor = ConnectionMonitor(this)
 
         // Passing each menu ID as a set of Ids because each
@@ -73,6 +74,10 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }
