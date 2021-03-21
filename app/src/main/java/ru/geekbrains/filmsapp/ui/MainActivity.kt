@@ -12,8 +12,11 @@ import ru.geekbrains.filmsapp.ui.extension.createCancelableAlertDialog
 import ru.geekbrains.filmsapp.ui.fragment.FavouritesFragment
 import ru.geekbrains.filmsapp.ui.fragment.HomeFragment
 import ru.geekbrains.filmsapp.ui.fragment.ProfileFragment
+import ru.geekbrains.filmsapp.viewmodel.ConnectionMonitor
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var connMonitor : ConnectionMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         bindView()
+
+        connMonitor = ConnectionMonitor(this)
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
