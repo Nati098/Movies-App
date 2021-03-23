@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_profile
         ))
     }
+    
 
     private fun bindView() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
