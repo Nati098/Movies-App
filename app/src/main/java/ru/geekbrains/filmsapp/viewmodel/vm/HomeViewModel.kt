@@ -1,6 +1,5 @@
 package ru.geekbrains.filmsapp.viewmodel.vm
 
-import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import ru.geekbrains.filmsapp.model.RepositoryImpl
 import ru.geekbrains.filmsapp.model.apiservice.WebApiService

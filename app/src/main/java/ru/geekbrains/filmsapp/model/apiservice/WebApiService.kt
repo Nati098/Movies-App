@@ -13,6 +13,10 @@ import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
+private const val REQUEST_GET = "GET"
+private const val REQUEST_TIMEOUT = 10000
+private const val REQUEST_API_KEY = "api_key"
+
 object WebApiService {
     private val TAG = javaClass.canonicalName
 
@@ -34,9 +38,9 @@ object WebApiService {
                 lateinit var urlConnection: HttpsURLConnection
                 try {
                     urlConnection = uri.openConnection() as HttpsURLConnection
-                    urlConnection.requestMethod = "GET"
-                    urlConnection.addRequestProperty("api_key", BuildConfig.TMD_API_KEY)
-                    urlConnection.readTimeout = 10000
+                    urlConnection.requestMethod = REQUEST_GET
+                    urlConnection.addRequestProperty(REQUEST_API_KEY, "99e8522ad678a5d83cf57ccf2a340d90")
+                    urlConnection.readTimeout = REQUEST_TIMEOUT
                     val bufferedReader =
                         BufferedReader(InputStreamReader(urlConnection.inputStream))
 

@@ -24,6 +24,10 @@ class RepositoryImpl : Repository {
     }
 
     override fun getMoviesListFromServer(): List<Movie> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFavouriteMoviesFromServer(accountId: Int): List<Movie> {
 //        TODO("Not yet implemented")
         return ArrayList()
     }
