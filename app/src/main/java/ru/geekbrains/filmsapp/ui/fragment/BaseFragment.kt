@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
+import ru.geekbrains.filmsapp.R
+import ru.geekbrains.filmsapp.ui.extension.makeLongSnackbar
 import ru.geekbrains.filmsapp.viewmodel.viewstate.BaseViewState
 import ru.geekbrains.filmsapp.viewmodel.vm.BaseViewModel
 
@@ -26,13 +28,6 @@ abstract class BaseFragment <T, VS : BaseViewState<T>, VB : ViewBinding> : Fragm
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer {
-            renderData(it)
-        })
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -40,7 +35,11 @@ abstract class BaseFragment <T, VS : BaseViewState<T>, VB : ViewBinding> : Fragm
 
     abstract fun bindView(view: View)
 
-    protected fun renderData(state: VS) {
-        Toast.makeText(context, this::class.java.simpleName, Toast.LENGTH_LONG)
+    open protected fun renderData(data: T) {
+        view?.makeLongSnackbar(this::class.java.simpleName)
+    }
+
+    open protected fun renderError(error: Throwable) {
+        view?.makeLongSnackbar(error.message ?: "Empty error")
     }
 }

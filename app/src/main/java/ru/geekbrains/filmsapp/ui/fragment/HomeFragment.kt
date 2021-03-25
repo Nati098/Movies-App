@@ -5,10 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentHomeBinding
-import ru.geekbrains.filmsapp.model.apiservice.WebApiService.LoaderListener
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.model.data.Trend
 import ru.geekbrains.filmsapp.ui.adapter.MovieAdapter
@@ -33,33 +33,24 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getTrendingFromRemote("movie", "week",
-            object : LoaderListener<Trend> {
-                override fun onLoaded(data: Trend) {
-                    setTrendData(data)
-                }
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer {state ->
+            state.apply {
+                trends?.let { setTrendData(it) }
+                rated?.let { setRatedData(it.movies) }
+                error?.let { renderError(it) }
+            }
+        })
 
-                override fun onFailed(throwable: Throwable) {
-                    setTrendData(null)
-                }
-            })
-
-        viewModel.getRatedFromRemote(
-            object : LoaderListener<Trend> {
-                override fun onLoaded(data: Trend) {
-                    setRatedData(data.movies)
-                }
-                override fun onFailed(throwable: Throwable) {
-                    setRatedData(null)
-                }
-            })
+        // listener'ы в данном случае не нужны, тк данные отслеживаются с помощью LiveData
+        viewModel.getTrendingFromRemote("movie", "week")
+        viewModel.getRatedFromRemote()
     }
 
     override fun bindView(view: View) {
-        trendAdapter = MovieAdapter(view.context, {})
+        trendAdapter = MovieAdapter(view.context) { movie ->  showMovie(movie)}
         binding.recycleViewTrend.adapter = trendAdapter
 
-        ratedAdapter = MovieAdapter(view.context, {})
+        ratedAdapter = MovieAdapter(view.context) { movie ->  showMovie(movie)}
         binding.recycleViewRated.adapter = ratedAdapter
 
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_home)
@@ -70,7 +61,6 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
             binding.layoutTrend.visibility = View.GONE
             return
         }
-
         trendAdapter.values = data.movies
     }
 
@@ -79,7 +69,6 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
             binding.layoutRated.visibility = View.GONE
             return
         }
-
         ratedAdapter.values = data
     }
 
