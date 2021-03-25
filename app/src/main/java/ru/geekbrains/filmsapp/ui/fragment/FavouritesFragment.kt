@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentFavouritesBinding
-import ru.geekbrains.filmsapp.model.data.Favourites
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.adapter.MovieAdapter
 import ru.geekbrains.filmsapp.ui.extension.createCancelableAlertDialog
@@ -43,11 +42,11 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_favourites)
     }
 
-    private fun setData(data: Favourites?) {
+    private fun setData(data: List<Movie>?) {
 
         data?.let {
             binding.fragmentEmpty.visibility = View.GONE
-            movieAdapter.values = it.results
+            movieAdapter.values = data
         } ?: showEmptyView()
 
     }
