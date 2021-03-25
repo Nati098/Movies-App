@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.extension.format
@@ -37,7 +38,7 @@ class MovieAdapter(private val context: Context, private val listener: (Movie) -
         private val popularity: TextView = view.findViewById(R.id.text_view_popularity)
 
         fun bind(movie: Movie) {
-            // TODO: load poster by poster path
+            movie.posterPath?.apply{ Glide.with(view).load(this).into(poster) }
             title.text = movie.title
             // TODO:join genres
             releaseDate.text = movie.releaseDate.format()

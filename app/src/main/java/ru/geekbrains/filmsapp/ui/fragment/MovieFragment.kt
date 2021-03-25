@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentMovieBinding
 import ru.geekbrains.filmsapp.model.data.Movie
@@ -71,7 +72,9 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
 
     override fun renderData(data: Movie?) {
         data?.let {
-//        image_view_poster
+            it.posterPath?.apply {
+                Glide.with(view).load(this).into(binding.imageViewPoster)
+            }
             binding.recyclerMovieDetails.adapter = MovieInfoAdapter(
                 listOf(
                     view?.resources?.getString(R.string.genres_template, "") ?: "",
