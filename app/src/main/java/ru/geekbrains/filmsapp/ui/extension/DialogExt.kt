@@ -15,7 +15,12 @@ fun Context.createCancelableAlertDialog(stringId: Int) = AlertDialog.Builder(thi
     .setPositiveButton(R.string.button_ok, { dialog, id -> })
     .create().show()
 
-fun View.makeLongSnackbar(message: String, actionString: String, action: ((View) -> Unit)?) {
+
+fun View.makeLongSnackbar(message: String) {
+    val s = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+}
+
+fun View.makeLongSnackbar(message: String, actionString: String? = "Empty", action: ((View) -> Unit)? = null) {
     val s = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
     action?.let {
         s.setAction(actionString, action)
