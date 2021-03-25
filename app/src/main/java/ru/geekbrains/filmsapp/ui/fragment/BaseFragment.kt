@@ -28,16 +28,6 @@ abstract class BaseFragment <T, VS : BaseViewState<T>, VB : ViewBinding> : Fragm
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer {state ->
-            state.apply {
-                data?.let { renderData(it) }
-                error?.let { renderError(it) }
-            }
-        })
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

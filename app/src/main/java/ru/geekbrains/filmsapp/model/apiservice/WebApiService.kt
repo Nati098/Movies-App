@@ -3,8 +3,11 @@ package ru.geekbrains.filmsapp.model.apiservice
 import android.os.Handler
 import android.os.Parcelable
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
+import ru.geekbrains.filmsapp.model.ApplicationResult
 import ru.geekbrains.filmsapp.model.data.Trend
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -20,17 +23,19 @@ private const val REQUEST_API_KEY = "api_key"
 object WebApiService {
     private val TAG = javaClass.canonicalName
 
-    fun getTrending(mediaType: String, timeWindow: String, listener: LoaderListener<Trend>) {
-        val url = "https://api.themoviedb.org/3/trending/${mediaType}/${timeWindow}"
-        executeGet(url, listener)
-    }
+    fun getTrending(mediaType: String, timeWindow: String) : LiveData<ApplicationResult> =
+        MutableLiveData<ApplicationResult>().apply {
+            val url = "https://api.themoviedb.org/3/trending/${mediaType}/${timeWindow}"
+            executeGet<Trend>(this, url)
+        }
 
-    fun getTopRated(listener: LoaderListener<Trend>) {
-        val url = "https://api.themoviedb.org/3/movie/top_rated"
-        executeGet(url, listener)
-    }
+    fun getTopRated() =
+        MutableLiveData<ApplicationResult>().apply {
+            val url = "https://api.themoviedb.org/3/movie/top_rated"
+            executeGet<Trend>(this, url)
+        }
 
-    private inline fun <reified P: Parcelable> executeGet(url: String, listener: LoaderListener<P>) {
+    private inline fun <reified P: Parcelable> executeGet(liveData: MutableLiveData<ApplicationResult>, url: String) {
         try {
             val uri = URL(url)
             val handler = Handler()
@@ -46,11 +51,11 @@ object WebApiService {
 
                     val trendDataModel: P =
                         Gson().fromJson(getLines(bufferedReader), P::class.java)
-                    handler.post { listener.onLoaded(trendDataModel) }
+                    handler.post { liveData.value = ApplicationResult.Success(trendDataModel) }
                 } catch (e: Exception) {
                     Log.e(TAG, "Fail connection", e)
                     e.printStackTrace()
-                    listener.onFailed(e)
+                    liveData.value = ApplicationResult.Error(error = e.fillInStackTrace())
                 } finally {
                     urlConnection.disconnect()
                 }
@@ -58,7 +63,7 @@ object WebApiService {
         } catch (e: MalformedURLException) {
             Log.e(TAG, "Fail URI", e)
             e.printStackTrace()
-            listener.onFailed(e)
+            liveData.value = ApplicationResult.Error(error = e.fillInStackTrace())
         }
     }
 
