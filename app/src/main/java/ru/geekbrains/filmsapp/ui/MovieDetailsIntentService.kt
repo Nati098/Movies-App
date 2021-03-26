@@ -2,9 +2,11 @@ package ru.geekbrains.filmsapp.ui
 
 import android.app.IntentService
 import android.content.Intent
+import android.os.Build
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ru.geekbrains.filmsapp.BuildConfig
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.model.response.SuccessResponse
 import ru.geekbrains.filmsapp.ui.fragment.*
@@ -49,7 +51,7 @@ class MovieDetailsIntentService(val name: String = "MovieDetailsIntentService") 
                 urlConnection.apply {
                     requestMethod = REQUEST_GET
                     readTimeout = REQUEST_TIMEOUT
-                    addRequestProperty(REQUEST_API_KEY, "99e8522ad678a5d83cf57ccf2a340d90")
+                    addRequestProperty(REQUEST_API_KEY, BuildConfig.TMD_API_KEY)
                 }
 
                 val responseType: Type = object : TypeToken<SuccessResponse<List<Movie>>>() {}.type

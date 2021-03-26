@@ -5,8 +5,8 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
+import ru.geekbrains.filmsapp.BuildConfig
 import ru.geekbrains.filmsapp.model.ApplicationResult
 import ru.geekbrains.filmsapp.model.data.Trend
 import java.io.BufferedReader
@@ -44,7 +44,7 @@ object WebApiService {
                 try {
                     urlConnection = uri.openConnection() as HttpsURLConnection
                     urlConnection.requestMethod = REQUEST_GET
-                    urlConnection.addRequestProperty(REQUEST_API_KEY, "99e8522ad678a5d83cf57ccf2a340d90")
+                    urlConnection.addRequestProperty(REQUEST_API_KEY, BuildConfig.TMD_API_KEY)
                     urlConnection.readTimeout = REQUEST_TIMEOUT
                     val bufferedReader =
                         BufferedReader(InputStreamReader(urlConnection.inputStream))

@@ -1,19 +1,25 @@
 package ru.geekbrains.filmsapp.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import retrofit2.Callback
+import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.apiservice.WebApiService
-import ru.geekbrains.filmsapp.model.data.Account
-import ru.geekbrains.filmsapp.model.data.Genre
-import ru.geekbrains.filmsapp.model.data.Movie
+import ru.geekbrains.filmsapp.model.data.*
 
-class RepositoryImpl : Repository {
+class RepositoryImpl(private val apiService: RetrofitApiService) : Repository {
 
     override fun getTrendingFromServer(mediaType: String, timeWindow: String) =
         WebApiService.getTrending(mediaType, timeWindow)
 
     override fun getTopRatedFromServer() =
         WebApiService.getTopRated()
+
+
+    override fun getFavouriteMoviesFromServer(accountId: String, callback: Callback<FavouritesDTO>) =
+        apiService.getFavouriteMovies(accountId, callback)
+
+    override fun getAccountFromServer(callback: Callback<AccountDTO>) =
+        apiService.getAccount(callback)
+
 
     override fun getGenresFromServer(): List<Genre> {
 //        TODO("Not yet implemented")
@@ -24,18 +30,8 @@ class RepositoryImpl : Repository {
         TODO("Not yet implemented")
     }
 
-    override fun getFavouriteMoviesFromServer(accountId: Int): List<Movie> {
-//        TODO("Not yet implemented")
-        return ArrayList()
-    }
-
     override fun getMovieDetailsFromServer(movieId: Int): Movie {
 //        TODO("Not yet implemented")
         return Movie()
-    }
-
-    override fun getAccountFromServer(): Account {
-//        TODO("Not yet implemented")
-        return Account()
     }
 }
