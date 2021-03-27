@@ -2,10 +2,11 @@ package ru.geekbrains.filmsapp.viewmodel.vm
 
 import androidx.lifecycle.MutableLiveData
 import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.viewmodel.viewstate.ProfileViewState
 
-class ProfileViewModel(private val repository: RepositoryImpl,
+class ProfileViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
                        observableData: MutableLiveData<ProfileViewState>) : BaseViewModel<Account?, ProfileViewState>(observableData) {
 
     fun getAccountFromLocal() = getDataFromRemote()

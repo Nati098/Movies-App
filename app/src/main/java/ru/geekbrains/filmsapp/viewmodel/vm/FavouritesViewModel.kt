@@ -1,15 +1,49 @@
 package ru.geekbrains.filmsapp.viewmodel.vm
 
 import androidx.lifecycle.MutableLiveData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.geekbrains.filmsapp.R
+import ru.geekbrains.filmsapp.model.ApplicationResult
 import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
+import ru.geekbrains.filmsapp.model.convertFavouritesDtoToModel
+import ru.geekbrains.filmsapp.model.data.FavouritesDTO
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.viewmodel.viewstate.FavouriteViewState
 
-class FavouritesViewModel(private val repository: RepositoryImpl,
-                          observableData: MutableLiveData<FavouriteViewState>) : BaseViewModel<List<Movie>?, FavouriteViewState>(observableData) {
+class FavouritesViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
+                          observableData: MutableLiveData<FavouriteViewState> = MutableLiveData()
+) : BaseViewModel<List<Movie>?, FavouriteViewState>(observableData) {
 
     fun getFavouritesFromLocal() = getDataFromRemote()
-    fun getFavouritesFromRemote() = getDataFromRemote()
+    fun getFavouritesFromRemote(accountId: String) = repository.getFavouriteMoviesFromServer(accountId, getFavouritesCallback)
+
+    private val getFavouritesCallback = object : Callback<FavouritesDTO> {
+
+        override fun onResponse(call: Call<FavouritesDTO>, response: Response<FavouritesDTO>) {
+            val body: FavouritesDTO? = response.body()
+            observableData.postValue(
+                if (response.isSuccessful && body != null) checkResponse(body)
+                else FavouriteViewState(error = Throwable("Server error"))
+            )
+        }
+
+        override fun onFailure(call: Call<FavouritesDTO>, t: Throwable) {
+            observableData.postValue(FavouriteViewState(error = t))
+        }
+
+        private fun checkResponse(serverResponse: FavouritesDTO): FavouriteViewState {
+            val data = serverResponse.results
+            return if (data.isNullOrEmpty()) {
+                FavouriteViewState(error = Throwable("Error with data"))
+            } else {
+                FavouriteViewState(convertFavouritesDtoToModel(serverResponse))
+            }
+        }
+    }
+
 
     fun getGenresFromLocal() = getDataFromRemote()
     fun getGenresFromRemote() = getDataFromRemote()

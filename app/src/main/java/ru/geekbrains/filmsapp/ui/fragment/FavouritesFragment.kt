@@ -5,10 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentFavouritesBinding
+import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.adapter.MovieAdapter
 import ru.geekbrains.filmsapp.ui.extension.createCancelableAlertDialog
@@ -22,6 +25,7 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFavouritesBinding
             = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentFavouritesBinding.inflate(layoutInflater)}
 
+    private lateinit var bundle: Account
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +33,11 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
         viewModel = ViewModelProvider(this).get(FavouritesViewModel::class.java)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.getFavouritesFromLocal()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Account()
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })  // TODO: сделать, чтобы в renderData передавался AppResult
+        viewModel.getFavouritesFromRemote(bundle.id.toString())
     }
 
     override fun bindView(view: View) {
@@ -42,7 +48,7 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_favourites)
     }
 
-    private fun setData(data: List<Movie>?) {
+    override fun renderData(data: List<Movie>?) {
 
         data?.let {
             binding.fragmentEmpty.visibility = View.GONE
@@ -57,6 +63,9 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     }
 
     companion object {
+
+        const val BUNDLE_EXTRA = "favourites"
+
         fun newInstance(bundle: Bundle): FavouritesFragment {
             Log.d("FavouritesFragment", "newInstance")
             val fragment = FavouritesFragment()

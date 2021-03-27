@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.ID_EXTRA
 import ru.geekbrains.filmsapp.ui.MovieDetailsIntentService
 import ru.geekbrains.filmsapp.viewmodel.viewstate.MovieViewState
 
-class MovieViewModel(private val repository: RepositoryImpl,
-                      observableData: MutableLiveData<MovieViewState>) : BaseViewModel<Movie?, MovieViewState>(observableData) {
+class MovieViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
+                     observableData: MutableLiveData<MovieViewState>) : BaseViewModel<Movie?, MovieViewState>(observableData) {
 
     fun getMovieDetailsFromLocal() = Unit
     fun getMovieDetailsFromRemote(context: Context, id : Int) =
