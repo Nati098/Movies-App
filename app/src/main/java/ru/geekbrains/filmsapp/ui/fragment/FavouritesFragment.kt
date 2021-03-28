@@ -36,7 +36,12 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Account()
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })  // TODO: сделать, чтобы в renderData передавался AppResult
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
+            state.apply {
+                data?.let { renderData(it) }
+                error?.let { renderError(it) }
+            }
+        })  // TODO: сделать, чтобы в renderData передавался AppResult
         viewModel.getFavouritesFromRemote(bundle.id.toString())
     }
 

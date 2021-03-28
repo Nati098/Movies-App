@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
@@ -61,6 +62,13 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
+            state.apply {
+                movie?.let { renderData(it) }
+                error?.let { renderError(it) }
+            }
+        })  // TODO: сделать, чтобы в renderData передавался AppResult
 
         val movieBundle = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
         movieBundle?.let {

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentProfileBinding
@@ -27,6 +28,18 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
+            state.apply {
+                data?.let { renderData(it) }
+                error?.let { renderError(it) }
+            }
+        })  // TODO: сделать, чтобы в renderData передавался AppResult
+        viewModel.getAccountFromRemote()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAccountFromRemote()
@@ -36,11 +49,15 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_profile)
     }
 
-    private fun setData(trend: Trend) {
-
+    override fun renderData(data: Account?) {
+        data?.let {
+            binding.textNotifications.text = it.toString()
+        } ?: renderError(Throwable("Unexpectable, but account data is empty"))
     }
 
     companion object {
+        const val BUNDLE_EXTRA = "account_data"
+
         fun newInstance(bundle: Bundle): ProfileFragment {
             Log.d("ProfileFragment", "newInstance")
             val fragment = ProfileFragment()
