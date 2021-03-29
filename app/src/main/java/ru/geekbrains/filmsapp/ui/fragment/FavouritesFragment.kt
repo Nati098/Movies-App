@@ -38,10 +38,15 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
         bundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Account()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
             state.apply {
-                data?.let { renderData(it) }
-                error?.let { renderError(it) }
+                if (data == null && error == null) {
+                    renderLoading()
+                }
+                else {
+                    data?.let { renderData(it) }
+                    error?.let { renderError(it) }
+                }
             }
-        })  // TODO: сделать, чтобы в renderData передавался AppResult
+        })
         viewModel.getFavouritesFromRemote(bundle.id.toString())
     }
 
@@ -53,18 +58,34 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_favourites)
     }
 
+    override fun renderLoading() {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.VISIBLE
+        binding.recycleView.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+    }
+
     override fun renderData(data: List<Movie>?) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.recycleView.visibility = View.VISIBLE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
 
         data?.let {
-            binding.fragmentEmpty.visibility = View.GONE
+            binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
             movieAdapter.values = data
         } ?: showEmptyView()
 
     }
 
-    private fun showEmptyView() {
-        binding.fragmentEmpty.visibility = View.VISIBLE
-        binding.textEmpty.setText(R.string.empty_list_message)
+    override fun renderError(error: Throwable) {
+        error.message?.let { showEmptyView(it) } ?: showEmptyView()
+    }
+
+    private fun showEmptyView(msg: String = getString(R.string.empty_list_message)) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.recycleView.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.VISIBLE
+
+        binding.fragmentEmpty.textEmpty.text = msg
     }
 
     companion object {

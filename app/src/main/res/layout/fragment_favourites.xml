@@ -6,23 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.FavouritesFragment">
 
-    <FrameLayout
+    <include
+        android:id="@+id/fragment_loading"
+        layout="@layout/fragment_loading"
+        tools:visibility="gone"/>
+
+    <include
         android:id="@+id/fragment_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/text_empty"
-            style="@style/ListEmptyTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="The list is empty."/>
-    </FrameLayout>
-
+        layout="@layout/fragment_empty"
+        tools:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view"

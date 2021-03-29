@@ -18,7 +18,10 @@ class FavouritesViewModel(private val repository: RepositoryImpl = RepositoryImp
 ) : BaseViewModel<List<Movie>?, FavouriteViewState>(observableData) {
 
     fun getFavouritesFromLocal() = getDataFromRemote()
-    fun getFavouritesFromRemote(accountId: String) = repository.getFavouriteMoviesFromServer(accountId, getFavouritesCallback)
+    fun getFavouritesFromRemote(accountId: String) {
+        observableData.value = FavouriteViewState()
+        repository.getFavouriteMoviesFromServer(accountId, getFavouritesCallback)
+    }
 
     private val getFavouritesCallback = object : Callback<FavouritesDTO> {
 

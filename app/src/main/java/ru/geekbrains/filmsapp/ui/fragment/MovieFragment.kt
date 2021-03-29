@@ -65,10 +65,15 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
 
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
             state.apply {
-                movie?.let { renderData(it) }
-                error?.let { renderError(it) }
+                if (movie == null && error == null) {
+                    renderLoading()
+                }
+                else {
+                    movie?.let { renderData(it) }
+                    error?.let { renderError(it) }
+                }
             }
-        })  // TODO: сделать, чтобы в renderData передавался AppResult
+        })
 
         val movieBundle = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
         movieBundle?.let {
@@ -78,7 +83,17 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
 
     override fun bindView(view: View) {}
 
+    override fun renderLoading() {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.VISIBLE
+        binding.layoutMovieInfo.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+    }
+
     override fun renderData(data: Movie?) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.layoutMovieInfo.visibility = View.VISIBLE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+
         data?.let {
             it.posterPath?.apply {
                 Glide.with(view).load(this).into(binding.imageViewPoster)
@@ -91,6 +106,16 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
                 ))
             binding.textViewOverview.text = it.overview
         } ?: renderError(Throwable("Cannot parcel movie from arguments with key=$BUNDLE_EXTRA"))
+    }
+
+    override fun renderError(error: Throwable) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.layoutMovieInfo.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.VISIBLE
+
+        error.message?.let {
+            binding.fragmentEmpty.textEmpty.text = it
+        } ?: binding.fragmentEmpty.textEmpty.setText(R.string.error_message)
     }
 
     override fun onDestroy() {

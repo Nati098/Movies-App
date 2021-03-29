@@ -42,7 +42,7 @@ class RetrofitApiService {
 
     inner class ResponseInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            // TODO: make handling of response
+            // TODO: make handling of response depends on code
             return chain.proceed(chain.request())
         }
     }

@@ -1,5 +1,6 @@
 package ru.geekbrains.filmsapp.model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import retrofit2.Callback
 import ru.geekbrains.filmsapp.model.data.*
@@ -15,5 +16,4 @@ interface Repository {
 
     fun getGenresFromServer() : List<Genre>
     fun getMoviesListFromServer() : List<Movie>
-    fun getMovieDetailsFromServer(movieId: Int): Movie
 }

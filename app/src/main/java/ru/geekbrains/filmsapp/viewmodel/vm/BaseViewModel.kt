@@ -9,4 +9,5 @@ open class BaseViewModel<T, VS : BaseViewState<T>>(protected val observableData:
 
     fun getLiveData() : LiveData<VS> = observableData
 
+
 }

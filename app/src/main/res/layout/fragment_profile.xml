@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.ProfileFragment">
 
+    <include
+        android:id="@+id/fragment_loading"
+        layout="@layout/fragment_loading"
+        tools:visibility="gone"/>
+
+    <include
+        android:id="@+id/fragment_empty"
+        layout="@layout/fragment_empty"
+        tools:visibility="gone"/>
+
     <TextView
         android:id="@+id/text_notifications"
         android:layout_width="match_parent"

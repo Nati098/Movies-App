@@ -33,10 +33,15 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
 
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
             state.apply {
-                data?.let { renderData(it) }
-                error?.let { renderError(it) }
+                if (data == null && error == null) {
+                    renderLoading()
+                }
+                else {
+                    data?.let { renderData(it) }
+                    error?.let { renderError(it) }
+                }
             }
-        })  // TODO: сделать, чтобы в renderData передавался AppResult
+        })
         viewModel.getAccountFromRemote()
     }
 
@@ -49,10 +54,30 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_profile)
     }
 
+    override fun renderLoading() {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.VISIBLE
+        binding.textNotifications.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+    }
+
     override fun renderData(data: Account?) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.textNotifications.visibility = View.VISIBLE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+
         data?.let {
             binding.textNotifications.text = it.toString()
         } ?: renderError(Throwable("Unexpectable, but account data is empty"))
+    }
+
+    override fun renderError(error: Throwable) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.textNotifications.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.VISIBLE
+
+        error.message?.let {
+            binding.fragmentEmpty.textEmpty.text = it
+        } ?: binding.fragmentEmpty.textEmpty.setText(R.string.error_message)
     }
 
     companion object {

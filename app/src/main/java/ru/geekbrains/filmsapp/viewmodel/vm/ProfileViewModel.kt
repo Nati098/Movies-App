@@ -17,8 +17,11 @@ import ru.geekbrains.filmsapp.viewmodel.viewstate.ProfileViewState
 class ProfileViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
                        observableData: MutableLiveData<ProfileViewState>) : BaseViewModel<Account?, ProfileViewState>(observableData) {
 
-    fun getAccountFromLocal() = getDataFromRemote()
-    fun getAccountFromRemote() = repository.getAccountFromServer(getAccountCallback)
+    fun getAccountFromLocal() = getDataFromLocal()
+    fun getAccountFromRemote() {
+        observableData.value = ProfileViewState()
+        repository.getAccountFromServer(getAccountCallback)
+    }
 
     private val getAccountCallback = object : Callback<AccountDTO> {
         override fun onResponse(call: Call<AccountDTO>, response: Response<AccountDTO>) {
@@ -43,12 +46,11 @@ class ProfileViewModel(private val repository: RepositoryImpl = RepositoryImpl(R
         }
     }
 
-    private fun getDataFromRemote() {
+    private fun getDataFromLocal() {
         observableData.value = ProfileViewState()
-        // TODO
         Thread {
             Thread.sleep(1000)
-            observableData.postValue(ProfileViewState(repository.getAccountFromServer()))
+            observableData.postValue(ProfileViewState(account = Account(548, "Emma Bekker", "a.n.onim", true)))
         }.start()
     }
 }
