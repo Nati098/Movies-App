@@ -3,17 +3,19 @@ package ru.geekbrains.filmsapp.viewmodel.vm
 import androidx.lifecycle.MutableLiveData
 import ru.geekbrains.filmsapp.model.ApplicationResult
 import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.apiservice.WebApiService
 import ru.geekbrains.filmsapp.model.data.Trend
 import ru.geekbrains.filmsapp.model.data.getLocalTrending
 import ru.geekbrains.filmsapp.viewmodel.viewstate.HomeViewState
 
 
-class HomeViewModel(private val repository: RepositoryImpl,
-                    observableData: MutableLiveData<HomeViewState>) : BaseViewModel<Trend?, HomeViewState>(observableData) {
+class HomeViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
+                    observableData: MutableLiveData<HomeViewState> = MutableLiveData()) : BaseViewModel<Trend?, HomeViewState>(observableData) {
 
     fun getTrendingFromLocal() = getLocalTrending()
-    fun getTrendingFromRemote(mediaType: String, timeWindow: String) =
+    fun getTrendingFromRemote(mediaType: String, timeWindow: String) {
+        observableData.value = HomeViewState()
         repository.getTrendingFromServer(mediaType, timeWindow).observeForever { t: ApplicationResult? ->
             t?.apply {
                 when(t) {
@@ -22,9 +24,11 @@ class HomeViewModel(private val repository: RepositoryImpl,
                 }
             } ?: return@observeForever
         }
+    }
 
     fun getRatedFromLocal() = getLocalTrending()
-    fun getRatedFromRemote() =
+    fun getRatedFromRemote() {
+        observableData.value = HomeViewState()
         repository.getTopRatedFromServer().observeForever { t: ApplicationResult? ->
             t?.apply {
                 when(t) {
@@ -33,5 +37,6 @@ class HomeViewModel(private val repository: RepositoryImpl,
                 }
             } ?: return@observeForever
         }
+    }
 
 }

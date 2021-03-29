@@ -27,11 +27,8 @@ class RepositoryImpl(private val apiService: RetrofitApiService) : Repository {
     }
 
     override fun getMoviesListFromServer(): List<Movie> {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
+        return ArrayList()
     }
 
-    override fun getMovieDetailsFromServer(movieId: Int): Movie {
-//        TODO("Not yet implemented")
-        return Movie()
-    }
 }

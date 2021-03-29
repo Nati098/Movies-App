@@ -56,6 +56,10 @@ class HomeFragment : BaseFragment<Trend?, HomeViewState, FragmentHomeBinding>() 
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_home)
     }
 
+    override fun renderLoading() {
+        // здесь нужная другая логика для отобрадения прогресс-баров
+    }
+
     private fun setTrendData(data: Trend?) {
         if (data == null) {
             binding.layoutTrend.visibility = View.GONE

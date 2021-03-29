@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
@@ -62,6 +63,18 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
+            state.apply {
+                if (movie == null && error == null) {
+                    renderLoading()
+                }
+                else {
+                    movie?.let { renderData(it) }
+                    error?.let { renderError(it) }
+                }
+            }
+        })
+
         val movieBundle = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
         movieBundle?.let {
             viewModel.getMovieDetailsFromRemote(requireContext(), id)
@@ -70,7 +83,17 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
 
     override fun bindView(view: View) {}
 
+    override fun renderLoading() {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.VISIBLE
+        binding.layoutMovieInfo.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+    }
+
     override fun renderData(data: Movie?) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.layoutMovieInfo.visibility = View.VISIBLE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+
         data?.let {
             it.posterPath?.apply {
                 Glide.with(view).load(this).into(binding.imageViewPoster)
@@ -83,6 +106,16 @@ class MovieFragment : BaseFragment<Movie?, MovieViewState, FragmentMovieBinding>
                 ))
             binding.textViewOverview.text = it.overview
         } ?: renderError(Throwable("Cannot parcel movie from arguments with key=$BUNDLE_EXTRA"))
+    }
+
+    override fun renderError(error: Throwable) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.layoutMovieInfo.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.VISIBLE
+
+        error.message?.let {
+            binding.fragmentEmpty.textEmpty.text = it
+        } ?: binding.fragmentEmpty.textEmpty.setText(R.string.error_message)
     }
 
     override fun onDestroy() {
