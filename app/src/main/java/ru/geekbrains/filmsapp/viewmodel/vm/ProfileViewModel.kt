@@ -4,14 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.repository.RepositoryImpl
 import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.convertAccountDtoToModel
-import ru.geekbrains.filmsapp.model.convertFavouritesDtoToModel
 import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.AccountDTO
-import ru.geekbrains.filmsapp.model.data.FavouritesDTO
-import ru.geekbrains.filmsapp.viewmodel.viewstate.FavouriteViewState
 import ru.geekbrains.filmsapp.viewmodel.viewstate.ProfileViewState
 
 class ProfileViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),

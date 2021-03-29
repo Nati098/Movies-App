@@ -1,8 +1,8 @@
-package ru.geekbrains.filmsapp.model
+package ru.geekbrains.filmsapp.model.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import retrofit2.Callback
+import ru.geekbrains.filmsapp.model.ApplicationResult
 import ru.geekbrains.filmsapp.model.data.*
 
 interface Repository {

@@ -1,4 +1,4 @@
-package ru.geekbrains.filmsapp.model
+package ru.geekbrains.filmsapp.model.repository
 
 import retrofit2.Callback
 import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService

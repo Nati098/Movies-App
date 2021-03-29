@@ -17,6 +17,7 @@
     <string name="empty_list_message">The list is empty</string>
 
     <string name="error_message">Error</string>
+    <string name="error_message_with_reload">Error while loading from network. Trying to load saved data...</string>
     <string name="no_network_message">No Internet connection</string>
 
     <string name="button_ok">OK</string>
