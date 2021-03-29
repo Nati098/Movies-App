@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
+import kotlinx.android.synthetic.main.fragment_favourites.view.*
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.ui.extension.makeLongSnackbar
 import ru.geekbrains.filmsapp.viewmodel.viewstate.BaseViewState
@@ -34,6 +35,8 @@ abstract class BaseFragment <T, VS : BaseViewState<T>, VB : ViewBinding> : Fragm
     }
 
     abstract fun bindView(view: View)
+
+    abstract fun renderLoading()
 
     open protected fun renderData(data: T) {
         view?.makeLongSnackbar(this::class.java.simpleName)

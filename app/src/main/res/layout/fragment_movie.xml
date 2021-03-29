@@ -1,82 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_small">
+    tools:context=".ui.fragment.MovieFragment">
 
+    <include
+        android:id="@+id/fragment_loading"
+        layout="@layout/fragment_loading"
+        tools:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/text_view_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/button_add_favourite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:gravity="start"
-        android:textAppearance="@style/TitleTextAppearance"
-        tools:text="Interstellar" />
+    <include
+        android:id="@+id/fragment_empty"
+        layout="@layout/fragment_empty"
+        tools:visibility="gone"/>
 
-    <ImageButton
-        android:id="@+id/button_add_favourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/movie_main_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/text_view_title"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@null"
-        android:tint="@color/secondaryLightColor"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_star_face"/>
-
-    <LinearLayout
-        android:id="@+id/movie_main_info"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_movie_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="250dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_title">
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_small">
 
-        <ImageView
-            android:id="@+id/image_view_poster"
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/button_add_favourite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:gravity="start"
+            android:textAppearance="@style/TitleTextAppearance"
+            tools:text="Interstellar" />
+
+        <ImageButton
+            android:id="@+id/button_add_favourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            app:layout_constraintBottom_toTopOf="@id/movie_main_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_view_title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@null"
+            android:tint="@color/secondaryLightColor"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_star_face"/>
 
         <LinearLayout
+            android:id="@+id/movie_main_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_small"
-            android:layout_weight="1">
+            android:maxHeight="250dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_title">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_movie_details"
+            <ImageView
+                android:id="@+id/image_view_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/no_poster" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_small"
+                android:layout_weight="1">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_movie_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_view_overview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/movie_main_info"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/margin_small"
-        android:gravity="start"
-        android:justificationMode="inter_word"
-        android:textAppearance="@style/OverviewTextAppearance"
-        tools:text="Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage. Or is it?" />
+        <TextView
+            android:id="@+id/text_view_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/movie_main_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="start"
+            android:justificationMode="inter_word"
+            android:textAppearance="@style/OverviewTextAppearance"
+            tools:text="Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage. Or is it?" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@
     tools:context=".ui.fragment.HomeFragment">
 
     <ScrollView
+        android:id="@+id/view_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -69,19 +70,14 @@
         </LinearLayout>
     </ScrollView>
 
-    <FrameLayout
-        android:id="@+id/fragment_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+    <include
+        android:id="@+id/fragment_loading"
+        layout="@layout/fragment_loading"
+        tools:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/text_empty"
-            style="@style/ListEmptyTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="The list is empty."/>
-    </FrameLayout>
+    <include
+        android:id="@+id/fragment_empty"
+        layout="@layout/fragment_empty"
+        tools:visibility="visible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

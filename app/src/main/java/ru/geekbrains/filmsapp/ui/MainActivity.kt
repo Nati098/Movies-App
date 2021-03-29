@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.ui.AppBarConfiguration
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.ui.extension.addToBackStack
@@ -36,8 +37,12 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_profile
         ))
     }
+    
 
     private fun bindView() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle(R.string.app_name)
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {

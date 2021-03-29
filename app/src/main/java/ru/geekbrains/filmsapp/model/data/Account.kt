@@ -8,4 +8,8 @@ data class Account(val id: Int = 0,
                  val name: String = "",
                  val username: String? = null,
                  val includeAdult: Boolean = false
-) : Parcelable
+) : Parcelable {
+    override fun toString(): String {
+        return "Account(id=$id, name='$name', username=$username, includeAdult=$includeAdult)"
+    }
+}

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.filmsapp.R
 import ru.geekbrains.filmsapp.databinding.FragmentProfileBinding
@@ -27,6 +28,23 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { state ->
+            state.apply {
+                if (data == null && error == null) {
+                    renderLoading()
+                }
+                else {
+                    data?.let { renderData(it) }
+                    error?.let { renderError(it) }
+                }
+            }
+        })
+        viewModel.getAccountFromRemote()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAccountFromRemote()
@@ -36,11 +54,35 @@ class ProfileFragment : BaseFragment<Account?, ProfileViewState, FragmentProfile
         view.context.createCancelableAlertDialog(R.string.bottom_nav_item_profile)
     }
 
-    private fun setData(trend: Trend) {
+    override fun renderLoading() {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.VISIBLE
+        binding.textNotifications.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+    }
 
+    override fun renderData(data: Account?) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.textNotifications.visibility = View.VISIBLE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.GONE
+
+        data?.let {
+            binding.textNotifications.text = it.toString()
+        } ?: renderError(Throwable("Unexpectable, but account data is empty"))
+    }
+
+    override fun renderError(error: Throwable) {
+        binding.fragmentLoading.layoutProgressbar.visibility = View.GONE
+        binding.textNotifications.visibility = View.GONE
+        binding.fragmentEmpty.fragmentEmpty.visibility = View.VISIBLE
+
+        error.message?.let {
+            binding.fragmentEmpty.textEmpty.text = it
+        } ?: binding.fragmentEmpty.textEmpty.setText(R.string.error_message)
     }
 
     companion object {
+        const val BUNDLE_EXTRA = "account_data"
+
         fun newInstance(bundle: Bundle): ProfileFragment {
             Log.d("ProfileFragment", "newInstance")
             val fragment = ProfileFragment()
