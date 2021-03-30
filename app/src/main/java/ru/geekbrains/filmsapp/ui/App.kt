@@ -16,7 +16,9 @@ class App : Application() {
 
         private var instance: App? = null
         private var db: FavouritesDatabase? = null
-        private const val DB_NAME = "History.db"
+        private const val DB_NAME = "Favourites.db"
+
+        fun getContext() = instance!!.applicationContext
 
         fun getFavouritesDao(): FavouritesDao {
             if (db == null) {

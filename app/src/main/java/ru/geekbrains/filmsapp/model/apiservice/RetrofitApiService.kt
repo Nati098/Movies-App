@@ -40,11 +40,11 @@ class RetrofitApiService {
         builder.getFavouriteMovies(BuildConfig.TMD_API_KEY, accountId = id).enqueue(callback)
     }
 
-    inner class ResponseInterceptor : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            // TODO: make handling of response depends on code
-            return chain.proceed(chain.request())
-        }
-    }
+}
 
+class ResponseInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        // TODO: make handling of response depends on code
+        return chain.proceed(chain.request())
+    }
 }
