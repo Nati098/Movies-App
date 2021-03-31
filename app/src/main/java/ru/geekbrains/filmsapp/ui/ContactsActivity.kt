@@ -8,6 +8,8 @@ import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -16,9 +18,13 @@ import ru.geekbrains.filmsapp.R
 class ContactsActivity : AppCompatActivity() {
     private val REQUEST_CODE = 42
 
+    private lateinit var listLayout: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
+
+        listLayout = findViewById(R.id.linear_layout_contacts)
 
         checkReadPermission()
     }
@@ -49,7 +55,8 @@ class ContactsActivity : AppCompatActivity() {
                 for (i in 0..cursor.count) {
                     if (cursor.moveToPosition(i)) {
                         val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                        addView(it, name)
+                        val phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        addView(name, phone)
                     }
                 }
             }
@@ -59,7 +66,11 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun requestPermission() = requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), REQUEST_CODE)
 
-    private fun addView(context: Context, textToShow: String) {
-        //TODO
+    private fun addView(name: String, phone: String) {
+        val card = layoutInflater.inflate(R.layout.card_view_contact, listLayout, false)
+        findViewById<TextView>(R.id.text_view_name).text = name
+        findViewById<TextView>(R.id.text_view_phone).text = phone
+
+        listLayout.addView(card)
     }
 }
