@@ -7,7 +7,10 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -77,7 +80,7 @@ class ContactsActivity : AppCompatActivity() {
                         addView(name, phone)
                     }
                 }
-            }
+            } ?: showEmptyView()
             cursorContacts?.close()
         }
     }
@@ -89,9 +92,16 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun addView(name: String, phone: String) {
         val card = layoutInflater.inflate(R.layout.card_view_contact, listLayout, false)
-        findViewById<TextView>(R.id.text_view_name).text = name
-        findViewById<TextView>(R.id.text_view_phone).text = phone
+        card.findViewById<TextView>(R.id.text_view_name).text = name
+        card.findViewById<TextView>(R.id.text_view_phone).text = phone
 
         listLayout.addView(card)
+    }
+
+    private fun showEmptyView(msg: String = getString(R.string.empty_list_message)) {
+        findViewById<ScrollView>(R.id.scroll_view_contacts).visibility = View.GONE
+        findViewById<FrameLayout>(R.id.fragment_empty).visibility = View.VISIBLE
+
+        findViewById<TextView>(R.id.text_empty).text = msg
     }
 }

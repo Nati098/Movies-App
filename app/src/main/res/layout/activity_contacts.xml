@@ -10,6 +10,7 @@
 <!--        layout="@layout/toolbar"/>-->
 
     <ScrollView
+        android:id="@+id/scroll_view_contacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.ContactsActivity">
@@ -20,6 +21,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/margin_small"/>
-
     </ScrollView>
+
+    <include
+        android:id="@+id/fragment_empty"
+        layout="@layout/fragment_empty"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
