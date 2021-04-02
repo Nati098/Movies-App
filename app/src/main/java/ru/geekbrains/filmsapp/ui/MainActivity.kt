@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_contacts -> {
-
+                startActivity(Intent(this, ContactsActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
