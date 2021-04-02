@@ -2,9 +2,8 @@ package ru.geekbrains.filmsapp.viewmodel.vm
 
 import androidx.lifecycle.MutableLiveData
 import ru.geekbrains.filmsapp.model.ApplicationResult
-import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.repository.RepositoryImpl
 import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
-import ru.geekbrains.filmsapp.model.apiservice.WebApiService
 import ru.geekbrains.filmsapp.model.data.Trend
 import ru.geekbrains.filmsapp.model.data.getLocalTrending
 import ru.geekbrains.filmsapp.viewmodel.viewstate.HomeViewState

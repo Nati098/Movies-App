@@ -9,7 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.geekbrains.filmsapp.R
+import ru.geekbrains.filmsapp.model.SystemPreferences
+import ru.geekbrains.filmsapp.model.SystemPreferences.ACCOUNT_DATA
 import ru.geekbrains.filmsapp.model.data.Movie
+import ru.geekbrains.filmsapp.model.data.accountFromJson
 import ru.geekbrains.filmsapp.ui.extension.format
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +24,8 @@ class MovieAdapter(private val context: Context, private val listener: (Movie) -
             field = value
             notifyDataSetChanged()
         }
+
+    var isAdultAllowed: Boolean = SystemPreferences.getStringPreference(ACCOUNT_DATA)?.let { accountFromJson(it)!!.includeAdult } ?: true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.card_view_movie, parent, false))
@@ -44,6 +49,7 @@ class MovieAdapter(private val context: Context, private val listener: (Movie) -
             releaseDate.text = movie.releaseDate.format()
             popularity.text = String.format(view.resources.getString(R.string.popularity_template), movie.popularity)
 
+            view.visibility = if (isAdultAllowed) View.VISIBLE else View.GONE
             view.setOnClickListener { listener.invoke(movie) }
         }
 

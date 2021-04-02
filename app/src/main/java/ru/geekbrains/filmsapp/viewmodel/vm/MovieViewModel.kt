@@ -3,7 +3,7 @@ package ru.geekbrains.filmsapp.viewmodel.vm
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
-import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.repository.RepositoryImpl
 import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.ID_EXTRA

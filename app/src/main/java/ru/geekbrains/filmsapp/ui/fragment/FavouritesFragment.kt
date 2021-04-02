@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,18 +14,23 @@ import ru.geekbrains.filmsapp.model.data.Account
 import ru.geekbrains.filmsapp.model.data.Movie
 import ru.geekbrains.filmsapp.ui.adapter.MovieAdapter
 import ru.geekbrains.filmsapp.ui.extension.createCancelableAlertDialog
+import ru.geekbrains.filmsapp.ui.extension.makeLongSnackbar
 import ru.geekbrains.filmsapp.viewmodel.viewstate.FavouriteViewState
 import ru.geekbrains.filmsapp.viewmodel.vm.FavouritesViewModel
+
 
 class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, FragmentFavouritesBinding>() {
 
     override lateinit var viewModel: FavouritesViewModel
     override val layoutRes: Int = R.layout.fragment_favourites
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFavouritesBinding
-            = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentFavouritesBinding.inflate(layoutInflater)}
+            = { layoutInflater: LayoutInflater, viewGroup: ViewGroup?, b: Boolean -> FragmentFavouritesBinding.inflate(
+        layoutInflater
+    )}
 
     private lateinit var bundle: Account
     private lateinit var movieAdapter: MovieAdapter
+    private var triedFromLocal: Boolean = false  // used to indicate, whether the request to db has been already made
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +44,14 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
             state.apply {
                 if (data == null && error == null) {
                     renderLoading()
-                }
-                else {
+                } else {
                     data?.let { renderData(it) }
                     error?.let { renderError(it) }
                 }
             }
         })
+
+        triedFromLocal = false  // reset flag
         viewModel.getFavouritesFromRemote(bundle.id.toString())
     }
 
@@ -77,6 +82,14 @@ class FavouritesFragment : BaseFragment<List<Movie>?, FavouriteViewState, Fragme
     }
 
     override fun renderError(error: Throwable) {
+        if (!triedFromLocal) {
+            // make request to local db 1 time and after
+            triedFromLocal = true
+            view?.makeLongSnackbar(error.message ?: getString(R.string.error_message_with_reload))
+            viewModel.getFavouritesFromLocal()
+            return
+        }
+
         error.message?.let { showEmptyView(it) } ?: showEmptyView()
     }
 

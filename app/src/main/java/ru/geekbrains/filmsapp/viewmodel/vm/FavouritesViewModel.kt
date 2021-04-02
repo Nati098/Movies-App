@@ -4,20 +4,25 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.geekbrains.filmsapp.R
-import ru.geekbrains.filmsapp.model.ApplicationResult
-import ru.geekbrains.filmsapp.model.RepositoryImpl
+import ru.geekbrains.filmsapp.model.repository.RepositoryImpl
 import ru.geekbrains.filmsapp.model.apiservice.RetrofitApiService
 import ru.geekbrains.filmsapp.model.convertFavouritesDtoToModel
 import ru.geekbrains.filmsapp.model.data.FavouritesDTO
 import ru.geekbrains.filmsapp.model.data.Movie
+import ru.geekbrains.filmsapp.model.repository.RepositoryLocalImpl
+import ru.geekbrains.filmsapp.ui.App
 import ru.geekbrains.filmsapp.viewmodel.viewstate.FavouriteViewState
 
 class FavouritesViewModel(private val repository: RepositoryImpl = RepositoryImpl(RetrofitApiService()),
+                          private val repositoryLocal: RepositoryLocalImpl = RepositoryLocalImpl(App.getFavouritesDao()),
                           observableData: MutableLiveData<FavouriteViewState> = MutableLiveData()
 ) : BaseViewModel<List<Movie>?, FavouriteViewState>(observableData) {
 
-    fun getFavouritesFromLocal() = getDataFromRemote()
+    fun getFavouritesFromLocal() {
+        observableData.value = FavouriteViewState()
+        observableData.value = FavouriteViewState(repositoryLocal.getFavouritesFromDb())
+    }
+
     fun getFavouritesFromRemote(accountId: String) {
         observableData.value = FavouriteViewState()
         repository.getFavouriteMoviesFromServer(accountId, getFavouritesCallback)

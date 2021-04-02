@@ -11,12 +11,15 @@
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
 
+    <string name="setting_adult">Show adult content</string>
+
     <string name="genres_template">Genres: %1$s</string>
     <string name="release_date_template">Release date: %1$s</string>
     <string name="popularity_template">Popularity: %1$d</string>
     <string name="empty_list_message">The list is empty</string>
 
     <string name="error_message">Error</string>
+    <string name="error_message_with_reload">Error while loading from network. Trying to load saved data...</string>
     <string name="no_network_message">No Internet connection</string>
 
     <string name="button_ok">OK</string>
