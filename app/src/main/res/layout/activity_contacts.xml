@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ContactsActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/linear_layout_contacts"
+<!--    <include-->
+<!--        android:id="@+id/toolbar"-->
+<!--        layout="@layout/toolbar"/>-->
+
+    <ScrollView
+        android:id="@+id/scroll_view_contacts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_small"/>
+        android:layout_height="match_parent"
+        tools:context=".ui.ContactsActivity">
 
-</ScrollView>
+        <LinearLayout
+            android:id="@+id/linear_layout_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_small"/>
+    </ScrollView>
+
+    <include
+        android:id="@+id/fragment_empty"
+        layout="@layout/fragment_empty"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
