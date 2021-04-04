@@ -19,9 +19,14 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            versionNameSuffix ".debug"
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix ".release"
         }
     }
     buildTypes.each {
@@ -29,6 +34,44 @@ android {
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
         it.buildConfigField 'String', "TMD_API_KEY", properties.getProperty("tmd_api_key_v3_auth", "")
     }
+
+    signingConfigs {
+        release {
+            def props = new Properties()
+
+            def fileInputStream = new FileInputStream(file('../signing.properties'))
+            props.load(fileInputStream)
+            fileInputStream.close()
+
+            storeFile = file(props['store_file'])
+            storePassword = props['store_pwd']
+            keyAlias = props['key_alias']
+            keyPassword = props['key_pwd']
+        }
+    }
+
+    flavorDimensions 'version'
+
+    productFlavors {
+        full {
+            dimension 'version'
+            versionNameSuffix '.full'
+        }
+
+        demo {
+            dimension 'version'
+            versionNameSuffix '.demo'
+        }
+    }
+
+//    ignore cutted flavor for release
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        if(variant.buildType.name == 'release' && names.contains("demo")) {
+            setIgnore(true)
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -38,6 +81,16 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    sourceSets {
+        demo {
+            res {
+                srcDirs 'src/demo/res'
+            }
+            java {
+                srcDirs 'src/demo/java'
+            }
+        }
     }
 }
 
