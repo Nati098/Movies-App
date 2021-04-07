@@ -82,13 +82,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_search -> {
+                createCancelableAlertDialog(R.string.action_search)
+                true
+            }
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivityForResult(intent, SETTINGS_CODE)
                 true
             }
-            R.id.action_search -> {
-                createCancelableAlertDialog(R.string.action_search)
+            R.id.action_contacts -> {
+                startActivity(Intent(this, ContactsActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
